@@ -27,7 +27,6 @@ function App() {
   };
   const handleCardSizeError = () => {
     setSizeError(cardNumber.length !== 19);
-    console.log(cardNumber.length);
   };
   const handleBlankInput = () => {
     setBlankNumError(cardNumber.length === 0);
