@@ -1,0 +1,267 @@
+:root {
+  --fonte-branco: rgb(255, 255, 255);
+  --roxo-escuro: rgb(33, 9, 47);
+  --cinza-claro: rgb(222, 221, 223);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.container {
+  width: 90rem;
+  display: flex;
+}
+
+.bg_side {
+  width: 35rem;
+  background: url(./assets/images/bg-main-desktop.png) no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+/* FRONT CARD STYLES */
+.front_card {
+  width: 20rem;
+  height: 11rem;
+  border-radius: 0.5rem;
+  background: url(./assets/images/bg-card-front.png);
+  background-size: cover;
+  padding: 1rem 1.8rem;
+}
+
+.select_side {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.front {
+  padding: 0.9rem;
+  border-radius: 100%;
+  border: 1px solid transparent;
+}
+.back {
+  padding: 0.4rem;
+  border-radius: 100%;
+  border: 1px solid var(--fonte-branco);
+  background: transparent;
+}
+
+.card_details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card_details p {
+  padding-top: 2rem;
+  color: var(--fonte-branco);
+  font-size: 1.4rem;
+}
+
+.card_info {
+  display: flex;
+  justify-content: space-between;
+  color: var(--fonte-branco);
+  font-size: 0.7rem;
+}
+
+.card_info span {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.cardError {
+  color: red;
+  font-size: 0.6rem;
+  text-transform: none;
+}
+
+.cardError2 {
+  border: 1px solid red;
+  border-radius: 0.4rem;
+}
+
+/* BACK CARD STYLES */
+
+.back_card {
+  width: 20rem;
+  height: 11rem;
+  border-radius: 0.5rem;
+  background: url(./assets/images/bg-card-back.png);
+  background-size: cover;
+  padding: 1rem 1.8rem;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  position: relative;
+  left: 60px;
+}
+
+.back_card p {
+  font-size: 0.7rem;
+  color: var(--fonte-branco);
+  position: relative;
+  top: -2px;
+  left: -15px;
+}
+
+.info_side {
+  width: 60%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--roxo-escuro);
+}
+
+.info_side p {
+  font-size: 0.7rem;
+  font-weight: bolder;
+}
+
+.info_side input::before {
+  border: 1px solid var(--cinza-claro);
+  color: var(--cinza-claro);
+  border-radius: 0.4rem;
+}
+
+.user_information {
+  width: 15rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.user_information input {
+  padding: 0.4rem;
+  width: 20rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--cinza-claro);
+}
+input:focus {
+  outline: 1px solid rgb(100, 72, 254); /* Remove a borda padrão do foco */
+  border-radius: 0.4rem;
+}
+
+input:hover {
+  cursor: pointer;
+}
+
+.sidebyside {
+  width: 20rem;
+  display: flex;
+}
+
+.date_info {
+  width: 10rem;
+}
+.date_info div {
+  display: flex;
+  gap: 0.5rem;
+}
+.date_info input {
+  width: 4rem;
+}
+
+.cvc_info,
+.cvc_info input {
+  width: 10rem;
+}
+
+.user_information button {
+  padding: 0.5rem;
+  width: 20rem;
+  color: var(--fonte-branco);
+  background: var(--roxo-escuro);
+  border: 1px solid var(--roxo-escuro);
+  border-radius: 0.3rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.completeSpan {
+  color: gray;
+  text-transform: none;
+  font-size: 0.7rem;
+}
+
+@media screen and (min-width: 1023px) and (max-width: 1300px) {
+  .container {
+    width: 100vw;
+  }
+  .bg_side {
+    width: 25rem;
+  }
+  .front_card {
+    position: relative;
+    left: 5rem;
+  }
+  .back_card {
+    left: 9rem;
+  }
+}
+
+@media screen and (min-width: 500px) and (max-width: 1022px) {
+  .container {
+    width: 100vw;
+  }
+  .bg_side {
+    width: 20rem;
+  }
+  .front_card {
+    position: relative;
+    left: 3rem;
+  }
+  .back_card {
+    left: 5rem;
+  }
+}
+
+@media screen and (max-width: 499px) {
+  .container {
+    flex-direction: column;
+    width: 100vw;
+  }
+  .bg_side {
+    width: 100%;
+    background: url(./assets/images/bg-main-mobile.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 24rem;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+  .front_card {
+    position: relative;
+    top: 35px;
+    left: 20px;
+    z-index: 2;
+  }
+  .back_card {
+    top: 144px;
+    z-index: 1;
+  }
+  .info_side {
+    width: 100%;
+    height: 25rem;
+    position: relative;
+    left: -30px;
+  }
+}
