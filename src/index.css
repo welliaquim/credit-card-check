@@ -13,6 +13,12 @@
   font-style: normal;
 }
 
+form {
+  display: flex;
+  position: relative;
+  left: 250px;
+}
+
 .container {
   width: 90rem;
   display: flex;
@@ -80,14 +86,16 @@
   letter-spacing: 2px;
 }
 
-.cardError {
+.error-message {
   color: red;
   font-size: 0.6rem;
   text-transform: none;
 }
 
-.cardError2 {
+.input-errors {
   border: 1px solid red;
+  padding: 0.4rem;
+  width: 20rem;
   border-radius: 0.4rem;
 }
 
@@ -146,7 +154,7 @@
   align-items: center;
 }
 
-.user_information input {
+.normalinput {
   padding: 0.4rem;
   width: 20rem;
   border-radius: 0.4rem;

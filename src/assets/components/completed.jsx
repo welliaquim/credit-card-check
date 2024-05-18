@@ -1,6 +1,6 @@
 import Completeicon from './icon';
 
-function completeSide() {
+function completeSide({ setSubmit }) {
   return (
     <>
       <div className="info_side">
