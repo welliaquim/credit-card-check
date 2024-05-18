@@ -1,21 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import CompleteSide from './assets/components/completed';
+import CompleteSide from './components/completed';
 import './App.css';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-const schema = z
-  .object({
-    name: z
-      .string()
-      .min(2, 'Name must contain at least 2 letters')
-      .regex(/^[A-Za-z ]+$/i, 'Only letters are allowed'),
-    cardnumber: z.string().min(19, 'Invalid size, must have 16 numbers'),
-    monthexp: z.number().min(2, 'Must have two numbers'),
-    yearexp: z.number().min(2, 'Must have two numbers'),
-    cvc: z.number().min(3, 'Must have three numbers'),
-  })
-  .strict();
+import { cardCheckSchema } from './validations/cardcheck';
+import { stringCardFormater } from './utils/formater';
 
 function App() {
   const [submit, setSubmit] = useState(true);
@@ -28,7 +17,7 @@ function App() {
       yearexp: 24,
       monthexp: 12,
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(cardCheckSchema),
   });
 
   const { errors } = formState;
@@ -40,14 +29,12 @@ function App() {
   const cvc = watch('cvc');
 
   const onSubmit = (data) => {
-    const validados = schema.parse(data);
+    const validados = cardCheckSchema.parse(data);
     console.log(validados);
   };
   const handleCardChange = (event) => {
-    let input = event.target.value;
-    input = input.replace(/\D/g, '');
-    input = input.replace(/(\d{4})(?=\d)/g, '$1 ');
-    setValue('cardnumber', input);
+    const formated = stringCardFormater(event.target.value);
+    setValue('cardnumber', formated);
   };
   return (
     <>
@@ -83,7 +70,6 @@ function App() {
                     type="text"
                     className={errors?.name ? 'input-errors' : 'normalinput'}
                     placeholder="e.g. Jane Appleseed"
-                    maxLength={24}
                     inputMode="text"
                     {...register('name')}
                   />
@@ -96,7 +82,6 @@ function App() {
                     type="text"
                     className={errors?.cardnumber ? 'input-errors' : 'normalinput'}
                     placeholder="e.g. 1234 5678 9123 0000"
-                    maxLength={19}
                     inputMode="numeric"
                     value={cardNumber}
                     {...register('cardnumber')}
@@ -119,7 +104,6 @@ function App() {
                           className={errors?.monthexp ? 'input-errors' : 'normalinput'}
                           placeholder="MM"
                           inputMode="numeric"
-                          maxLength={2}
                           value={monthExp}
                           {...register('monthexp')}
                         />
@@ -131,7 +115,6 @@ function App() {
                           className={errors?.yearexp ? 'input-errors' : 'normalinput'}
                           placeholder="YY"
                           inputMode="numeric"
-                          maxLength={2}
                           value={yearExp}
                           {...register('yearexp')}
                         />
@@ -147,7 +130,6 @@ function App() {
                         className={errors?.cvc ? 'input-errors' : 'normalinput'}
                         placeholder="e.g. 123"
                         inputMode="numeric"
-                        maxLength={3}
                         {...register('cvc')}
                       />
                       {errors?.cvc && <span className="error-message">{errors?.cvc?.message}</span>}
