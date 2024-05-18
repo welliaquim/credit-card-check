@@ -1,150 +1,153 @@
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import CompleteSide from './components/completed';
-import './App.css';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { cardCheckSchema } from './validations/cardcheck';
-import { stringCardFormater } from './utils/formater';
+import "./App.css";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+
+import CompleteSide from "./components/completed";
+import ErrorMessage from "./components/ErrorMessage";
+import { stringCardFormater } from "./utils/formater";
+import { classNamerHelper } from "./utils/helpers";
+import { cardCheckSchema } from "./validations/cardcheck";
+
+function onSubmit(data) {
+  const validados = cardCheckSchema.parse(data);
+
+  console.log(validados);
+}
 
 function App() {
   const [submit, setSubmit] = useState(true);
 
-  const { register, handleSubmit, formState, watch, setValue } = useForm({
-    defaultValues: {
-      cvc: 123,
-      name: 'Wellouza',
-      cardnumber: '1234 4123 1234 4231',
-      yearexp: 24,
-      monthexp: 12,
-    },
-    resolver: zodResolver(cardCheckSchema),
-  });
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    setValue,
+    watch,
+  } = useForm(
+    useMemo(
+      () => ({
+        defaultValues: {
+          cardnumber: "1234 4123 1234 4231",
+          cvc: 123,
+          monthexp: 12,
+          name: "Wellouza",
+          yearexp: 24,
+        },
 
-  const { errors } = formState;
+        resolver: zodResolver(cardCheckSchema),
+      }),
+      [],
+    ),
+  );
 
-  const holder = watch('name');
-  const cardNumber = watch('cardnumber');
-  const monthExp = watch('monthexp');
-  const yearExp = watch('yearexp');
-  const cvc = watch('cvc');
+  const holder = watch("name");
+  const cardNumber = watch("cardnumber");
+  const monthExp = watch("monthexp");
+  const yearExp = watch("yearexp");
+  const cvc = watch("cvc");
 
-  const onSubmit = (data) => {
-    const validados = cardCheckSchema.parse(data);
-    console.log(validados);
-  };
-  const handleCardChange = (event) => {
+  function handleCardChange(event) {
     const formated = stringCardFormater(event.target.value);
-    setValue('cardnumber', formated);
-  };
+
+    setValue("cardnumber", formated);
+  }
+
   return (
-    <>
-      <div className="container">
-        <div className="bg_side">
-          <div className="front_card">
-            <div className="select_side">
-              <button className="front"></button>
-              <button className="back"></button>
-            </div>
-            <div className="card_details">
-              <p>{cardNumber || '0000 0000 0000 0000'}</p>
-              <div className="card_info">
-                <span>{holder || 'JANE APPLESEED'}</span>
-                <span>
-                  {monthExp || '00'}/{yearExp || '00'}
-                </span>
-              </div>
-            </div>
+    <div className="container">
+      <div className="bg_side">
+        <div className="front_card">
+          <div className="select_side">
+            <button className="front" type="button" />
+            <button className="back" type="button" />
           </div>
-          <div className="back_card">
-            <p>{cvc || '000'}</p>
+          <div className="card_details">
+            <p>{cardNumber || "0000 0000 0000 0000"}</p>
+            <div className="card_info">
+              <span>{holder || "JANE APPLESEED"}</span>
+              {monthExp || "00"}/{yearExp || "00"}
+            </div>
           </div>
         </div>
-
-        {submit ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="info_side">
-              <div className="user_information">
-                <div className="name_info">
-                  <p>Cardholder Name</p>
-                  <input
-                    type="text"
-                    className={errors?.name ? 'input-errors' : 'normalinput'}
-                    placeholder="e.g. Jane Appleseed"
-                    inputMode="text"
-                    {...register('name')}
-                  />
-                  {errors?.name && <span className="error-message">{errors?.name?.message}</span>}
-                </div>
-
-                <div className="number_info">
-                  <p>Card Number</p>
-                  <input
-                    type="text"
-                    className={errors?.cardnumber ? 'input-errors' : 'normalinput'}
-                    placeholder="e.g. 1234 5678 9123 0000"
-                    inputMode="numeric"
-                    value={cardNumber}
-                    {...register('cardnumber')}
-                    onChange={handleCardChange}
-                  />
-
-                  {errors?.cardnumber && (
-                    <span className="error-message">
-                      {errors?.cardnumber?.message} <br />
-                    </span>
-                  )}
-                </div>
-                <div className="sidebyside">
-                  <div className="date_info">
-                    <p>Exp. Date (MM/YY)</p>
-                    <div>
-                      <div className="column">
-                        <input
-                          type="text"
-                          className={errors?.monthexp ? 'input-errors' : 'normalinput'}
-                          placeholder="MM"
-                          inputMode="numeric"
-                          value={monthExp}
-                          {...register('monthexp')}
-                        />
-                        {errors?.monthexp && <span className="error-message">{errors?.monthexp?.message}</span>}
-                      </div>
-                      <div className="column">
-                        <input
-                          type="text"
-                          className={errors?.yearexp ? 'input-errors' : 'normalinput'}
-                          placeholder="YY"
-                          inputMode="numeric"
-                          value={yearExp}
-                          {...register('yearexp')}
-                        />
-                        {errors?.yearexp && <span className="error-message">{errors?.yearexp?.message}</span>}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="cvc_info">
-                    <p>CVC</p>
-                    <div className="column">
-                      <input
-                        type="text"
-                        className={errors?.cvc ? 'input-errors' : 'normalinput'}
-                        placeholder="e.g. 123"
-                        inputMode="numeric"
-                        {...register('cvc')}
-                      />
-                      {errors?.cvc && <span className="error-message">{errors?.cvc?.message}</span>}
-                    </div>
-                  </div>
-                </div>
-                <button type="submit">Confirm</button>
-              </div>
-            </div>
-          </form>
-        ) : (
-          <CompleteSide setSubmit={setSubmit} />
-        )}
+        <div className="back_card">
+          <p>{cvc || "000"}</p>
+        </div>
       </div>
-    </>
+      {submit ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="info_side">
+            <div className="user_information">
+              <div className="name_info">
+                <p>Cardholder Name</p>
+                <input
+                  className={errors?.name ? "input-errors" : "normalinput"}
+                  inputMode="text"
+                  placeholder="e.g. Jane Appleseed"
+                  type="text"
+                  {...register("name")}
+                />
+                <ErrorMessage message={errors?.name?.message} />
+              </div>
+              <div className="number_info">
+                <p>Card Number</p>
+                <input
+                  className={classNamerHelper(errors?.cardnumber, "input-errors", "normalinput")}
+                  inputMode="numeric"
+                  placeholder="e.g. 1234 5678 9123 0000"
+                  type="text"
+                  value={cardNumber}
+                  {...register("cardnumber")}
+                  onChange={handleCardChange}
+                />
+                <ErrorMessage message={errors?.cardnumber?.message} />
+              </div>
+              <div className="sidebyside">
+                <div className="date_info">
+                  <p>Exp. Date (MM/YY)</p>
+                  <div className="column">
+                    <input
+                      className={classNamerHelper(errors?.monthexp, "input-errors", "normalinput")}
+                      inputMode="numeric"
+                      placeholder="MM"
+                      type="text"
+                      {...register("monthexp")}
+                    />
+                    <ErrorMessage message={errors?.monthexp?.message} />
+                  </div>
+                  <div className="column">
+                    <input
+                      className={classNamerHelper(errors?.yearexp, "input-errors", "normalinput")}
+                      inputMode="numeric"
+                      placeholder="YY"
+                      type="text"
+                      {...register("yearexp")}
+                    />
+                    <ErrorMessage message={errors?.yearexp?.message} />
+                  </div>
+                </div>
+                <div className="cvc_info">
+                  <p>CVC</p>
+                  <div className="column">
+                    <input
+                      className={classNamerHelper(errors?.cvc, "input-errors", "normalinput")}
+                      inputMode="numeric"
+                      placeholder="e.g. 123"
+                      type="text"
+                      {...register("cvc")}
+                    />
+                    <ErrorMessage message={errors?.cvc?.message} />
+                  </div>
+                </div>
+              </div>
+              <button type="submit">Confirm</button>
+            </div>
+          </div>
+        </form>
+      ) : (
+        <CompleteSide setSubmit={setSubmit} />
+      )}
+    </div>
   );
 }
 
