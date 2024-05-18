@@ -2,18 +2,33 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import CompleteSide from './assets/components/completed';
 import './App.css';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+const schema = z
+  .object({
+    name: z
+      .string()
+      .min(2, 'Name must contain at least 2 letters')
+      .regex(/^[A-Za-z ]+$/i, 'Only letters are allowed'),
+    cardnumber: z.string().min(19, 'Invalid size, must have 16 numbers'),
+    monthexp: z.number().min(2, 'Must have two numbers'),
+    yearexp: z.number().min(2, 'Must have two numbers'),
+    cvc: z.number().min(3, 'Must have three numbers'),
+  })
+  .strict();
 
 function App() {
   const [submit, setSubmit] = useState(true);
 
   const { register, handleSubmit, formState, watch, setValue } = useForm({
-    // defaultValues: {
-    //   cvc: 123,
-    //   name: 'Wellouza',
-    //   cardnumber: '1234 4123 1234 4231',
-    //   yearexp: 24,
-    //   monthexp: 12,
-    // },
+    defaultValues: {
+      cvc: 123,
+      name: 'Wellouza',
+      cardnumber: '1234 4123 1234 4231',
+      yearexp: 24,
+      monthexp: 12,
+    },
+    resolver: zodResolver(schema),
   });
 
   const { errors } = formState;
@@ -25,7 +40,8 @@ function App() {
   const cvc = watch('cvc');
 
   const onSubmit = (data) => {
-    setSubmit(false);
+    const validados = schema.parse(data);
+    console.log(validados);
   };
   const handleCardChange = (event) => {
     let input = event.target.value;
@@ -33,7 +49,6 @@ function App() {
     input = input.replace(/(\d{4})(?=\d)/g, '$1 ');
     setValue('cardnumber', input);
   };
-
   return (
     <>
       <div className="container">
@@ -70,11 +85,7 @@ function App() {
                     placeholder="e.g. Jane Appleseed"
                     maxLength={24}
                     inputMode="text"
-                    {...register('name', {
-                      required: { value: true, message: "Can't be blank" },
-                      minLength: { value: 2, message: 'Name must contain at least 2 letters' },
-                      pattern: { value: /^[A-Za-z ]+$/i, message: 'Only letters are allowed' },
-                    })}
+                    {...register('name')}
                   />
                   {errors?.name && <span className="error-message">{errors?.name?.message}</span>}
                 </div>
@@ -88,10 +99,7 @@ function App() {
                     maxLength={19}
                     inputMode="numeric"
                     value={cardNumber}
-                    {...register('cardnumber', {
-                      required: { value: true, message: "Can't be blank" },
-                      minLength: { value: 19, message: 'Invalid size, must have 16 numbers' },
-                    })}
+                    {...register('cardnumber')}
                     onChange={handleCardChange}
                   />
 
@@ -113,10 +121,7 @@ function App() {
                           inputMode="numeric"
                           maxLength={2}
                           value={monthExp}
-                          {...register('monthexp', {
-                            required: { value: true, message: "Can't be blank" },
-                            minLength: { value: 2, message: 'Must have two numbers' },
-                          })}
+                          {...register('monthexp')}
                         />
                         {errors?.monthexp && <span className="error-message">{errors?.monthexp?.message}</span>}
                       </div>
@@ -128,10 +133,7 @@ function App() {
                           inputMode="numeric"
                           maxLength={2}
                           value={yearExp}
-                          {...register('yearexp', {
-                            required: { value: true, message: "Can't be blank" },
-                            minLength: { value: 2, message: 'Must have two numbers' },
-                          })}
+                          {...register('yearexp')}
                         />
                         {errors?.yearexp && <span className="error-message">{errors?.yearexp?.message}</span>}
                       </div>
@@ -146,10 +148,7 @@ function App() {
                         placeholder="e.g. 123"
                         inputMode="numeric"
                         maxLength={3}
-                        {...register('cvc', {
-                          required: { value: true, message: "Can't be blank" },
-                          minLength: { value: 3, message: 'Must have three numbers' },
-                        })}
+                        {...register('cvc')}
                       />
                       {errors?.cvc && <span className="error-message">{errors?.cvc?.message}</span>}
                     </div>
