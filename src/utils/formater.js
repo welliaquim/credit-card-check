@@ -1,5 +1,6 @@
-export const stringCardFormater = (input) => {
-  input = input.replace(/\D/g, '');
-  input = input.replace(/(\d{4})(?=\d)/g, '$1 ');
+export function stringCardFormater(input) {
+  input = input.replaceAll(/\D/g, "");
+  input = input.replaceAll(/(\d{4})(?=\d)/gv, "$1 ");
+
   return input;
-};
+}

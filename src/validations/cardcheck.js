@@ -1,14 +1,18 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const cardCheckSchema = z
   .object({
+    cardnumber: z.string().min(19, "Invalid size, must have 16 numbers").max(19, "Invalid size, must have 16 numbers"),
+
+    cvc: z.string().min(2, "Must have three numbers").max(3, "Must have three numbers"),
+
+    monthexp: z.string().min(2, "Must have two numbers").max(2, "Must have two numbers"),
+
     name: z
       .string()
-      .min(2, 'Name must contain at least 2 letters')
-      .regex(/^[A-Za-z ]+$/i, 'Only letters are allowed'),
-    cardnumber: z.string().min(19, 'Invalid size, must have 16 numbers'),
-    monthexp: z.number().min(2, 'Must have two numbers'),
-    yearexp: z.number().min(2, 'Must have two numbers'),
-    cvc: z.number().min(3, 'Must have three numbers'),
+      .min(2, "Name must contain at least 2 letters")
+      .regex(/^[ a-z]+$/i, "Only letters are allowed"),
+
+    yearexp: z.string().min(2, "Must have two numbers").max(2, "Must have two numbers"),
   })
   .strict();

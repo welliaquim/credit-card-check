@@ -8,7 +8,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
@@ -208,6 +208,17 @@ input:hover {
   color: gray;
   text-transform: none;
   font-size: 0.7rem;
+}
+
+.date_info .column:last-of-type {
+  position: relative;
+  top: -32px;
+  right: -73px;
+}
+
+.align {
+  position: relative;
+  top: -21px;
 }
 
 @media screen and (min-width: 1023px) and (max-width: 1300px) {
