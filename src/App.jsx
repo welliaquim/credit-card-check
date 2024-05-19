@@ -12,23 +12,20 @@ import { cardCheckSchema } from "./validations/cardcheck";
 
 function onSubmit(data) {
   const validados = cardCheckSchema.parse(data);
-
-  console.log(validados);
 }
 
 function App() {
   const [submit, setSubmit] = useState(true);
-
   const { formState, handleSubmit, register, setValue, watch } = useForm(
     useMemo(
       () => ({
-        // defaultValues: {
-        //   cardnumber: "1234 4123 1234 4231",
-        //   cvc: 123,
-        //   monthexp: 12,
-        //   name: "Wellouza",
-        //   yearexp: 24,
-        // },
+        defaultValues: {
+          cardnumber: "1234 4123 1234 4231",
+          cvc: "123",
+          monthexp: "12",
+          name: "Wellouza",
+          yearexp: "24",
+        },
 
         resolver: zodResolver(cardCheckSchema),
       }),
@@ -138,7 +135,9 @@ function App() {
                   </div>
                 </div>
               </div>
-              <button type="submit">Confirm</button>
+              <button onClick={() => setSubmit(false)} type="submit">
+                Confirm
+              </button>
             </div>
           </div>
         </form>
