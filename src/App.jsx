@@ -19,13 +19,13 @@ function App() {
   const { formState, handleSubmit, register, setValue, watch } = useForm(
     useMemo(
       () => ({
-        defaultValues: {
-          cardnumber: "1234 4123 1234 4231",
-          cvc: "123",
-          monthexp: "12",
-          name: "Wellouza",
-          yearexp: "24",
-        },
+        // defaultValues: {
+        //   cardnumber: "1234 4123 1234 4231",
+        //   cvc: "123",
+        //   monthexp: "12",
+        //   name: "Wellouza",
+        //   yearexp: "24",
+        // },
 
         resolver: zodResolver(cardCheckSchema),
       }),
