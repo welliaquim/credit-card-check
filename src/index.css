@@ -123,8 +123,12 @@ form {
   left: -15px;
 }
 
+form {
+  width: 50%;
+}
+
 .info_side {
-  width: 60%;
+  width: 50%;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -141,6 +145,11 @@ form {
   border: 1px solid var(--cinza-claro);
   color: var(--cinza-claro);
   border-radius: 0.4rem;
+}
+.info_side_center {
+  position: relative;
+  left: 70px;
+  top: 19px;
 }
 
 .user_information {
@@ -223,10 +232,10 @@ input:hover {
 
 @media screen and (min-width: 1023px) and (max-width: 1300px) {
   .container {
-    width: 100vw;
+    width: 64rem;
   }
   .bg_side {
-    width: 25rem;
+    width: 20rem;
   }
   .front_card {
     position: relative;
@@ -235,6 +244,9 @@ input:hover {
   .back_card {
     left: 9rem;
   }
+  form {
+    width: unset;
+  }
 }
 
 @media screen and (min-width: 500px) and (max-width: 1022px) {
@@ -242,7 +254,7 @@ input:hover {
     width: 100vw;
   }
   .bg_side {
-    width: 20rem;
+    width: 17.4rem;
   }
   .front_card {
     position: relative;
@@ -250,6 +262,9 @@ input:hover {
   }
   .back_card {
     left: 5rem;
+  }
+  form {
+    width: unset;
   }
 }
 
@@ -270,17 +285,33 @@ input:hover {
   .front_card {
     position: relative;
     top: 35px;
-    left: 20px;
     z-index: 2;
   }
   .back_card {
     top: 144px;
+    left: 27px;
     z-index: 1;
   }
   .info_side {
     width: 100%;
     height: 25rem;
-    position: relative;
-    left: -30px;
+  }
+  .name_info,
+  .number_info,
+  .name_info input,
+  .number_info input,
+  .sidebyside {
+    width: 100%;
+  }
+  form {
+    width: 100%;
+    position: unset;
+  }
+  .user_information {
+    width: 100%;
+    padding: 1rem;
+  }
+  .cvc_info input {
+    width: 100%;
   }
 }
